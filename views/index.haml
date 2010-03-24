@@ -1,0 +1,12 @@
+%h1 sinavote
+%table
+  %tr
+    %th URI
+    %th Rating
+    %th Comments
+  - @targets.each do |target|
+    %tr
+      %td= h target.uri
+      %td= h target.rating
+      %td= h target.comments.size
+ 

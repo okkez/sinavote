@@ -1,12 +1,33 @@
+*
+  padding: 0
+  margin: 0
 body
   margin: 0 0 0 0
   padding: 0 0 0 0
 
 table
+  margin: 2%
   border: 1px solid black
   border-collapse: collapse
 
-  th
-    border: 1px solid black
-
+  thead
+    tr
+      border-bottom: 1px solid black
+    th
+      background-color: black
+      color: white
+  tbody
+    tr:nth-child(even)
+      background-color: #dcdcdc
+    td
+      padding: 2px
+    td.comments
+      width: 200px
+      ul
+        li:last-child
+          text-align: right
+  
+ul
+  li
+    list-style-type: none
 

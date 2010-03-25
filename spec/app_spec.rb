@@ -17,6 +17,11 @@ describe App do
     File.delete 'db/development.db' if File.exist? 'db/development.db'
   end
 
+  after do
+    Target.delete
+    Comment.delete
+  end
+
   def app
     App
   end
@@ -44,10 +49,6 @@ describe App do
                :target => { :uri => "http://example.com/path/to/target" },
                :comment => { :rating => 1, :message => "not so bad!" },
              }.to_json)
-      end
-      after do
-        Target.delete
-        Comment.delete
       end
       it{ last_response.should be_ok }
       it{ JSON.parse(last_response.body)["success"].should be_true }

@@ -1,0 +1,14 @@
+%h1 Details
+%p= link_to @target.uri, @target.uri
+
+%table
+  %thead
+    %tr
+      %th Rating
+      %th Message
+  %tbody
+    - @target.comments.each do |comment|
+      %tr
+        %td=h comment.rating
+        %td=h comment.message
+

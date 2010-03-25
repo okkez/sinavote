@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 require 'rubygems'
 require 'sinatra'
+require 'sinatra_more/markup_plugin'
+require 'active_support'
 
 require 'sequel'
 Sequel.sqlite('db/development.db')
@@ -10,6 +12,8 @@ require 'models/comment.rb'
 require 'json'
 
 class App < Sinatra::Base
+  register SinatraMore::MarkupPlugin
+
   helpers do
     include Rack::Utils; alias_method :h, :escape_html
   end
@@ -24,6 +28,11 @@ class App < Sinatra::Base
     haml :index
   end
 
+  get '/target/:id' do
+    @target = Target.find(params[:id])
+    haml :show
+  end
+
   #
   # クエリパラメータの request に以下のような JSON データをセットする
   #
@@ -35,8 +44,8 @@ class App < Sinatra::Base
   post '/rate.json' do
     begin
       data = JSON.parse(params[:request])
-      target = Target.find_or_create(data["target"])
-      Comment.create(data["comment"].merge(:target_id => target.id))
+      target = Target.find_or_create(data["target"].symbolize_keys)
+      Comment.create(data["comment"].merge(:target_id => target.id).symbolize_keys)
       content_type 'application/json', :charset => 'utf-8'
       { :success => true, :request => params[:request] }.to_json
     rescue => ex

@@ -1,12 +1,21 @@
 %h1 sinavote
 %table
-  %tr
-    %th URI
-    %th Rating
-    %th Comments
-  - @targets.each do |target|
+  %thead
     %tr
-      %td= h target.uri
-      %td= h target.rating
-      %td= h target.comments.size
+      %th URI
+      %th Rating
+      %th Comments
+  %tbody
+    - @targets.each do |target|
+      %tr
+        %td.uri= h target.uri
+        %td.rating
+          %ul
+            - (1..5).each do |rating|
+              %li= h target.rating_count(rating)
+        %td.comments
+          %ul
+            - target.recent_comments.each do |comment|
+              %li= h comment.message
+            %li= link_to 'more...', "/target/#{target.id}"
  

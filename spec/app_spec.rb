@@ -45,10 +45,9 @@ describe App do
     describe "with some parameters" do
       before do
         post('rate.json',
-             :request => {
-               :target => { :uri => "http://example.com/path/to/target" },
-               :comment => { :rating => 1, :message => "not so bad!" },
-             }.to_json)
+             :uri => "http://example.com/path/to/target",
+             :rating => 1,
+             :message => "not so bad!")
       end
       it{ last_response.should be_ok }
       it{ JSON.parse(last_response.body)["success"].should be_true }
@@ -56,15 +55,13 @@ describe App do
     describe "with same request" do
       before do
         post('rate.json',
-             :request => {
-               :target => { :uri => "http://example.com/path/to/target" },
-               :comment => { :rating => 1, :message => "not so bad!" },
-             }.to_json)
+             :uri => "http://example.com/path/to/target",
+             :rating => 1,
+             :message => "not so bad!")
         post('rate.json',
-             :request => {
-               :target => { :uri => "http://example.com/path/to/target" },
-               :comment => { :rating => 2, :message => "not so bad!" },
-             }.to_json)
+             :uri => "http://example.com/path/to/target",
+             :rating => 2,
+             :message => "not so bad!")
       end
       it{ last_response.should be_ok }
       it{ JSON.parse(last_response.body)["success"].should be_true }

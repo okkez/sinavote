@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
 require 'sinatra_more/markup_plugin'
 require 'active_support'
 
@@ -13,6 +13,8 @@ require 'json'
 
 class App < Sinatra::Base
   register SinatraMore::MarkupPlugin
+
+  set :public, File.join(File.dirname(__FILE__), 'public')
 
   helpers do
     include Rack::Utils; alias_method :h, :escape_html
@@ -33,26 +35,28 @@ class App < Sinatra::Base
     haml :show
   end
 
+  get '/rate' do
+    haml :rate
+  end
+
   #
-  # クエリパラメータの request に以下のような JSON データをセットする
-  #
-  #   {
-  #      "target" => { "uri" => "http://example.com/path/to/something" },
-  #      "comment" => { "rating" => 1, "message" => "message about target!" }
-  #   }
+  # params[:uri]
+  # params[:rating]
+  # params[:message]
   #
   post '/rate.json' do
     begin
-      data = JSON.parse(params[:request])
-      target = Target.find_or_create(data["target"].symbolize_keys)
-      Comment.create(data["comment"].merge(:target_id => target.id).symbolize_keys)
+      target = Target.find_or_create(:uri => params[:uri])
+      Comment.create(:target_id => target.id,
+                     :rating => params[:rating],
+                     :message => params[:message])
       content_type 'application/json', :charset => 'utf-8'
-      { :success => true, :request => params[:request] }.to_json
+      { :success => true, :request => params }.to_json
     rescue => ex
       message = '%s : %s' % [ex.class.to_s, ex.message]
       content_type 'application/json', :charset => 'utf-8'
       status 500
-      { :success => false, :request => params[:request], :message => message }.to_json
+      { :success => false, :request => params, :message => message }.to_json
     end
   end
 end

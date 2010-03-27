@@ -45,8 +45,10 @@ describe App do
     describe "with some parameters" do
       before do
         post('rate.json',
-             :uri => "http://example.com/path/to/target",
-             :rating => 1,
+             :uri     => "http://example.com/path/to/target",
+             :name    => 'name',
+             :email   => 'name@example.com',
+             :rating  => 1,
              :message => "not so bad!")
       end
       it{ last_response.should be_ok }
@@ -55,12 +57,16 @@ describe App do
     describe "with same request" do
       before do
         post('rate.json',
-             :uri => "http://example.com/path/to/target",
-             :rating => 1,
+             :uri     => "http://example.com/path/to/target",
+             :name    => 'name',
+             :email   => 'name@example.com',
+             :rating  => 1,
              :message => "not so bad!")
         post('rate.json',
-             :uri => "http://example.com/path/to/target",
-             :rating => 2,
+             :uri     => "http://example.com/path/to/target",
+             :name    => 'name',
+             :email   => 'name@example.com',
+             :rating  => 2,
              :message => "not so bad!")
       end
       it{ last_response.should be_ok }

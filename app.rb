@@ -41,6 +41,8 @@ class App < Sinatra::Base
 
   #
   # params[:uri]
+  # params[:name]
+  # params[:email]
   # params[:rating]
   # params[:message]
   #
@@ -48,8 +50,10 @@ class App < Sinatra::Base
     begin
       target = Target.find_or_create(:uri => params[:uri])
       Comment.create(:target_id => target.id,
-                     :rating => params[:rating],
-                     :message => params[:message])
+                     :name      => params[:name],
+                     :email     => params[:email],
+                     :rating    => params[:rating],
+                     :message   => params[:message])
       content_type 'application/json', :charset => 'utf-8'
       { :success => true, :request => params }.to_json
     rescue => ex

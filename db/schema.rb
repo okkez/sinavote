@@ -18,6 +18,8 @@ class AppSchema
       DB.create_table? :comments do
         primary_key :id
         integer :target_id, :null => false
+        string :name, :null => false, :default => 'anonymous'
+        string :email, :null => true
         integer :rating, :null => false, :default => 0
         text :message, :null => true
         time :created_at

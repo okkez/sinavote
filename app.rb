@@ -5,9 +5,6 @@ require 'sinatra_more/markup_plugin'
 require 'active_support'
 
 require 'sequel'
-Sequel.sqlite('db/development.db')
-require 'models/target.rb'
-require 'models/comment.rb'
 
 require 'json'
 
@@ -15,6 +12,20 @@ class App < Sinatra::Base
   register SinatraMore::MarkupPlugin
 
   set :public, File.join(File.dirname(__FILE__), 'public')
+
+  db_config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'config/database.yml')))
+  configure :development do
+    Sequel.connect(db_config[:development])
+  end
+  configure :test do
+    Sequel.connect(db_config[:test])
+  end
+  configure :production do
+    Sequel.connect(db_config[:production])
+  end
+
+  require 'models/target.rb'
+  require 'models/comment.rb'
 
   helpers do
     include Rack::Utils; alias_method :h, :escape_html

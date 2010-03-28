@@ -13,10 +13,6 @@ describe App do
     load 'models/comment.rb'
   end
 
-  after :all do
-    File.delete 'db/development.db' if File.exist? 'db/development.db'
-  end
-
   after do
     Target.delete
     Comment.delete

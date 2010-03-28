@@ -1,0 +1,20 @@
+:development:
+  :adapter: postgres
+  :encoding: unicode
+  :database: sinavote_development
+  :pool: 5
+  :username:
+  :password:
+
+:test:
+  :adapter: sqlite
+  :database: memory
+
+:production:
+  :adapter: postgres
+  :encoding: unicode
+  :database: sinavote_production
+  :pool: 5
+  :username:
+  :password:
+

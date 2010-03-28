@@ -8,9 +8,7 @@
         %option{ :value => "4" } 4
         %option{ :value => "5" } 5
     %p#stars-loading{ :style => "padding-left:5px;" }
-    %label{ :for => "stars-with-message", :style => "padding-left:5px;" } Message
-    %input{ :type => "checkbox", :id => "stars-with-message" }
-    %textarea#stars-message{ :name => "message", :rows => "2", :cols => "50" }
+
 
 - content_for :head do
   apply_stars();

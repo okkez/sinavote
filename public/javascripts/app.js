@@ -1,7 +1,10 @@
 
 function apply_stars(){
-    $("#stars-wrapper").before("<textarea id='stars-message' name='message' rows='2' cols='50'>");
-    $("#stars-wrapper").css("float", "right");
+    $("#stars-wrapper")
+        .before("<textarea id='stars-message' name='message' rows='2' cols='50' title='Type your comment'>")
+        .before("<input id='stars-name' type='text' name='name' title='Name'>")
+        .before("<input id='stars-email' type='text' name='email' title='Email'>");
+    $("#stars-message, #stars-name, #stars-email").fieldtag();
     $("#stars-wrapper").stars({
         inputType: "select",
         oneVoteOnly: true,

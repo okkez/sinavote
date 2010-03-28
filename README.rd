@@ -1,6 +1,6 @@
 = sinavote
 
-under constructing
+「Ruby リファレンスマニュアル刷新計画」で使用するために作ったコメント投稿受付アプリケーションです。
 
 == TODO
 

@@ -4,11 +4,15 @@
 %table
   %thead
     %tr
-      %th Rating
       %th Message
+      %th Name
+      %th Email
+      %th Rating
   %tbody
     - @target.comments.each do |comment|
       %tr
-        %td=h comment.rating
         %td=h comment.message
+        %td=h comment.name
+        %td=h comment.email
+        %td=h comment.rating
 

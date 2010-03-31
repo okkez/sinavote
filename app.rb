@@ -41,9 +41,22 @@ class App < Sinatra::Base
     haml :index
   end
 
+  get '/index.rss' do
+    content_type 'application/xml', :charset => 'utf-8'
+    @comments = Comment.order_by(:updated_at.desc).limit(200).all
+    builder :index
+  end
+
   get '/target/:id' do
     @target = Target.find(params[:id])
     haml :show
+  end
+
+  get '/target/:id.rss' do
+    @target = Target.find(params[:id])
+    @comments = Comment.filter(:target_id => @target.id).order_by(:updated_at).limit(200).all
+    content_type 'application/xml', :charset => 'utf-8'
+    builder :show
   end
 
   get '/rate' do

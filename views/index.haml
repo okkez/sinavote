@@ -8,7 +8,7 @@
   %tbody
     - @targets.each do |target|
       %tr
-        %td.uri= h target.uri
+        %td.uri= link_to(target.uri, target.uri)
         %td.rating
           %ul
             - (1..5).each do |rating|

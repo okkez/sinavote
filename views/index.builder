@@ -12,7 +12,8 @@ xml.rss(:version => '2.0',
 
     @comments.each do |comment|
       xml.item do
-        xml.title comment.target.uri
+        xml.title "%s へのコメント" % [comment.target.uri]
+        xml.link File.join(File.dirname(request.url), "/target/#{comment.target.id}")
         xml.description comment.message + " | Rating:#{comment.rating}"
         xml.author comment.name
       end

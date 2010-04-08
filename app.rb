@@ -36,27 +36,38 @@ class App < Sinatra::Base
     sass :style
   end
 
-  get '/' do
-    @targets = Target.order_by(:updated_at).all
-    haml :index
-  end
-
   get '/index.rss' do
     content_type 'application/xml', :charset => 'utf-8'
     @comments = Comment.order_by(:updated_at.desc).limit(200).all
     builder :index
   end
 
-  get '/target/:id' do
-    @target = Target.find(params[:id])
-    haml :show
+  get '/' do
+    @targets = Target.order_by(:updated_at).all
+    haml :index
   end
 
   get '/target/:id.rss' do
-    @target = Target.find(params[:id])
+    @target = Target.find(:id => params[:id])
     @comments = Comment.filter(:target_id => @target.id).order_by(:updated_at).limit(200).all
     content_type 'application/xml', :charset => 'utf-8'
     builder :show
+  end
+
+  get '/target/:id' do
+    @target = Target.find(:id => params[:id])
+    if request.xhr?
+      haml :show, :layout => false
+    else
+      haml :show
+    end
+  end
+
+  get '/uri' do
+    @target = Target.find(:uri => params[:uri])
+    # MEMO request.xhr? で場合分けしたいけど jQuery.getJSON だと request.xhr? が true にならない。
+    content_type :json
+    "#{params[:callback]}(#{@target.comments.map(&:to_hash_for_display).to_json});"
   end
 
   get '/rate' do

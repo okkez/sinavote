@@ -3,7 +3,7 @@ require 'sequel'
 
 class AppSchema
   db_config = YAML.load(File.read(File.join(File.dirname(__FILE__), '..', 'config/database.yml')))
-  DB = Sequel.connect(db_config[ENV['RACK_ENV'] || :development])
+  DB = Sequel.connect(db_config[ENV['RACK_ENV'].to_sym || :development])
 
   class << self
     def setup
